@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Celebration</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  overflow:hidden;
+  font-family:Segoe UI;
+  background:linear-gradient(135deg,#ff4d6d,#ff8fab,#ffc2d1);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  color:white;
+}
+
+.box{
+  text-align:center;
+  background:rgba(255,255,255,0.15);
+  padding:30px;
+  border-radius:25px;
+  backdrop-filter:blur(10px);
+  width:90%;
+  max-width:420px;
+}
+
+h1{font-size:clamp(32px,8vw,60px);}
+p{font-size:18px;}
+
+.heart,.petal{
+  position:fixed;
+  animation:floatUp 6s linear infinite;
+}
+
+@keyframes floatUp{
+  from{transform:translateY(100vh);}
+  to{transform:translateY(-10vh);opacity:0;}
+}
+</style>
+</head>
+<body>
+
+<audio id="music" loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=romantic-background-11276.mp3">
+</audio>
+
+<div class="box animate__animated animate__zoomIn">
+  <h1>🎉 Congratulations! 🎉</h1>
+  <p>Happy Valentine's Day ❤️</p>
+
+  <div id="letter" style="font-size:50px;cursor:pointer;">💌</div>
+  <div id="loveMsg" style="display:none;margin-top:10px;">
+    You make my world brighter every day ❤️
+  </div>
+
+  <div id="sweetMessages" style="margin-top:15px;"></div>
+</div>
+
+<script>
+document.body.addEventListener("click",()=>{
+  document.getElementById("music").play();
+},{once:true});
+
+/* confetti */
+setInterval(()=>{
+  confetti({particleCount:60,spread:70,origin:{y:0.6}});
+},900);
+
+/* floating hearts + petals */
+setInterval(()=>{
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="💖";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+},500);
+
+setInterval(()=>{
+  const p=document.createElement("div");
+  p.className="petal";
+  p.innerHTML="🌹";
+  p.style.left=Math.random()*100+"vw";
+  document.body.appendChild(p);
+  setTimeout(()=>p.remove(),6000);
+},700);
+
+/* love letter */
+const letter=document.getElementById("letter");
+const msg=document.getElementById("loveMsg");
+
+letter.addEventListener("click",()=>{
+  msg.style.display="block";
+});
+
+/* rotating sweet messages */
+const messages=[
+"You are my favorite person ❤️",
+"I’m lucky to have you 💕",
+"You make my world beautiful 🌎",
+"Forever with you ❤️",
+"You are my sunshine ☀️"
+];
+
+let i=0;
+const box=document.getElementById("sweetMessages");
+
+function show(){
+  box.innerText=messages[i];
+  i=(i+1)%messages.length;
+}
+setInterval(show,2500);
+show();
+</script>
+
+</body>
+</html>
